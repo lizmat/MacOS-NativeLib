@@ -1,5 +1,5 @@
 use MacOS::NativeLib;
 
-ensure-symlink-for($_) for @*ARGS;
+.say for @*ARGS.map: &ensure-symlink-for;
 
 # vim: expandtab shiftwidth=4
