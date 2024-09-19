@@ -1,0 +1,27 @@
+{
+  "auth": "zef:lizmat",
+  "authors": [
+    "Elizabeth Mattijsen"
+  ],
+  "build-depends": [
+  ],
+  "depends": [
+  ],
+  "description": "Make native libs reachable on MacOS",
+  "license": "Artistic-2.0",
+  "name": "MacOS::NativeLib",
+  "perl": "6.d",
+  "provides": {
+    "MacOS::NativeLib": "lib/MacOS/NativeLib.rakumod"
+  },
+  "resources": [
+  ],
+  "source-url": "https://github.com/lizmat/MacOS-NativeLib.git",
+  "tags": [
+    "MACOS",
+    "NATIVECALL"
+  ],
+  "test-depends": [
+  ],
+  "version": "0.0.1"
+}
