@@ -52,9 +52,9 @@ if there is none already.
 
 If this module is loaded on any OS other than MacOS, it is simply a no-op.
 
-Any errors will be shown on STDERR, but will interrupt the further execution,
-so that any module actually depending on the reachability of a native library
-can use it's own checks and error reporting.
+Any errors will be shown on STDERR, but will B<NOT> interrupt the further
+execution, so that any module actually depending on the reachability of a
+native library can use its own checks and error reporting.
 
 =head1 ensure-symlink-for
 

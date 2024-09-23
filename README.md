@@ -24,7 +24,7 @@ This module allows one to specify one or more library names that should be made 
 
 If this module is loaded on any OS other than MacOS, it is simply a no-op.
 
-Any errors will be shown on STDERR, but will interrupt the further execution, so that any module actually depending on the reachability of a native library can use it's own checks and error reporting.
+Any errors will be shown on STDERR, but will **NOT** interrupt the further execution, so that any module actually depending on the reachability of a native library can use its own checks and error reporting.
 
 ensure-symlink-for
 ==================
