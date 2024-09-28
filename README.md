@@ -9,8 +9,8 @@ SYNOPSIS
 ========
 
 ```raku
-use MacOS::NativeLib 'libgd.3';  # make GD library accessible
-use GD::Raw;                     # load raw GD support
+use MacOS::NativeLib 'gd';  # make all versions of GD libraries accessible
+use GD::Raw;                # load raw GD support
 ```
 
 DESCRIPTION
@@ -22,6 +22,10 @@ The most common way to install native libraries on MacOS is by using `HomeBrew` 
 
 This module allows one to specify one or more library names that should be made reachable in the `use` statement. A symlink will then be installed if there is none already.
 
+Library names can be specified with or without the "lib" prefix, so `"gd"` and `"libgd"` would produce the same result. By default, **all** versions of a native library will be made available. You can limit to a specific version by specifying a more specific name, e.g. `"gd.3"` to only make version **3** of the GD library available.
+
+You can have all libraries installed by HomeBrew linked automatically by specifying `"*"` or `*` (aka `Whatever`), although this may not be a wise decision from a security point of view.
+
 If this module is loaded on any OS other than MacOS, it is simply a no-op.
 
 Any errors will be shown on STDERR, but will **NOT** interrupt the further execution, so that any module actually depending on the reachability of a native library can use its own checks and error reporting.
@@ -29,7 +33,7 @@ Any errors will be shown on STDERR, but will **NOT** interrupt the further execu
 ensure-symlink-for
 ==================
 
-    $ ensure-symlink-for libgd.3
+    $ ensure-symlink-for gd
 
 This module also installs a command-line interface called `ensure-symlink-for`. It takes the same arguments as in the `use` statement, and will install the necessary symlinks if they did not exist yet.
 

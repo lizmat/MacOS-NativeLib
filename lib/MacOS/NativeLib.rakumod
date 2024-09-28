@@ -1,18 +1,36 @@
-my sub ensure-symlink-for($lib is copy) is export {
+my sub ensure-symlink-for($name) is export {
     if $*DISTRO.name eq 'macos' {
-        $lib ~= ".dylib" unless $lib.ends-with(".dylib");
 
-        my $from = "/opt/homebrew/lib/$lib".IO;
-        return "Could not access '$from'" unless $from.r;
+        my $dir  := "/opt/homebrew/lib";
+        my $root := $name eq '*' || $name ~~ Whatever
+          ?? "lib"
+          !! $name.starts-with("lib")
+            ?? $name
+            !! "lib$name";
+        my $target := $*EXECUTABLE.parent.sibling("lib");
 
-        my $to = $*EXECUTABLE.parent.sibling("lib/$lib");
-        if $to.r {
-            return $from.resolve eq $to.resolve
-              ?? Empty     # nothing to do
-              !! "Existing symlink resolves incorrectly";
+        my @failures;
+        for dir($dir).grep({
+            my $base := .basename;
+            $base.starts-with($root) && $base.ends-with(".dylib")
+        }) -> $from {
+            if $from.r {
+                my $to := $target.add($from.basename);
+                if $to.r {
+                    @failures.push(
+                      "Existing symlink '$to' resolves incorrectly"
+                    ) unless $from.resolve eq $to.resolve;
+                }
+                else {
+                    @failures.push(.message) without symlink $from, $to;
+                }
+            }
+            else {
+                @failures.push: "Could not access library '$from'";
+            }
         }
 
-        .message without symlink $from, $to;
+        @failures.join("\n") if @failures
     }
 }
 
@@ -31,8 +49,8 @@ MacOS::NativeLib - Make native libs reachable on MacOS
 
 =begin code :lang<raku>
 
-use MacOS::NativeLib 'libgd.3';  # make GD library accessible
-use GD::Raw;                     # load raw GD support
+use MacOS::NativeLib 'gd';  # make all versions of GD libraries accessible
+use GD::Raw;                # load raw GD support
 
 =end code
 
@@ -50,6 +68,16 @@ This module allows one to specify one or more library names that should be
 made reachable in the C<use> statement.  A symlink will then be installed
 if there is none already.
 
+Library names can be specified with or without the "lib" prefix, so
+C<"gd"> and C<"libgd"> would produce the same result.  By default, B<all>
+versions of a native library will be made available.  You can limit to
+a specific version by specifying a more specific name, e.g. C<"gd.3"> to
+only make version B<3> of the GD library available.
+
+You can have all libraries installed by HomeBrew linked automatically
+by specifying C<"*"> or C<*> (aka C<Whatever>), although this may not be
+a wise decision from a security point of view.
+
 If this module is loaded on any OS other than MacOS, it is simply a no-op.
 
 Any errors will be shown on STDERR, but will B<NOT> interrupt the further
@@ -60,7 +88,7 @@ native library can use its own checks and error reporting.
 
 =begin output
 
-$ ensure-symlink-for libgd.3
+$ ensure-symlink-for gd
 
 =end output
 

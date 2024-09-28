@@ -2,6 +2,9 @@ Revision history for MacOS::NativeLib
 
 {{$NEXT}}
 
+0.0.3  2024-09-28T13:01:42+02:00
+    - Ease specification of libraries to be made available
+
 0.0.2  2024-09-23T14:23:57+02:00
     - Fix error reporting in CLI
     - Fix some typos in documentation
