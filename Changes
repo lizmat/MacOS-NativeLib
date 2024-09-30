@@ -2,6 +2,9 @@ Revision history for MacOS::NativeLib
 
 {{$NEXT}}
 
+0.0.4  2024-09-30T10:18:50+02:00
+    - Add support for custom brew locations
+
 0.0.3  2024-09-28T13:01:42+02:00
     - Ease specification of libraries to be made available
 
