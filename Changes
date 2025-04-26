@@ -1,6 +1,8 @@
 Revision history for MacOS::NativeLib
 
 {{$NEXT}}
+    - Added badge for each OS
+    - Updated copyright year
 
 0.0.4  2024-09-30T10:18:50+02:00
     - Add support for custom brew locations
