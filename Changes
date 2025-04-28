@@ -1,6 +1,8 @@
 Revision history for MacOS::NativeLib
 
 {{$NEXT}}
+
+0.0.5  2025-04-28T10:57:11+02:00
     - Added documentation for soft dependency
     - Added badge for each OS
     - Updated copyright year
