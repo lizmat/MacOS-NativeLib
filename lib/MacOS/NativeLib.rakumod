@@ -2,7 +2,7 @@ my sub ensure-symlink-for($name) is export {
     my @failures;
 
     if $*DISTRO.name eq 'macos' {
-        my $prefix := (run <brew config>, :out).out.slurp
+        my $prefix := quietly (run <brew config>, :out).out.slurp
           .lines.first(*.starts-with("HOMEBREW_PREFIX:")).substr(17);
 
         if $prefix {

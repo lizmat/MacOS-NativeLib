@@ -1,4 +1,4 @@
-[![Actions Status](https://github.com/lizmat/MacOS-NativeLib/actions/workflows/test.yml/badge.svg)](https://github.com/lizmat/MacOS-NativeLib/actions)
+[![Actions Status](https://github.com/lizmat/MacOS-NativeLib/actions/workflows/linux.yml/badge.svg)](https://github.com/lizmat/MacOS-NativeLib/actions) [![Actions Status](https://github.com/lizmat/MacOS-NativeLib/actions/workflows/macos.yml/badge.svg)](https://github.com/lizmat/MacOS-NativeLib/actions) [![Actions Status](https://github.com/lizmat/MacOS-NativeLib/actions/workflows/windows.yml/badge.svg)](https://github.com/lizmat/MacOS-NativeLib/actions)
 
 NAME
 ====
@@ -30,8 +30,20 @@ If this module is loaded on any OS other than MacOS, it is simply a no-op.
 
 Any errors will be shown on STDERR, but will **NOT** interrupt the further execution, so that any module actually depending on the reachability of a native library can use its own checks and error reporting.
 
+AS AN OPTIONAL DEPENDENCY
+=========================
+
+If a module author does not want to create a hard dependency on this module, it is quite easy to make it an optional dependency in the code, by wrapping the `use` statement in a `try` / `EVAL` combo:
+
+```raku
+try 'use MacOS::NativeLib <gd>'.EVAL;
+```
+
+SCRIPTS
+=======
+
 ensure-symlink-for
-==================
+------------------
 
     $ ensure-symlink-for gd
 
@@ -49,7 +61,7 @@ If you like this module, or what I’m doing more generally, committing to a [sm
 COPYRIGHT AND LICENSE
 =====================
 
-Copyright 2024 Elizabeth Mattijsen
+Copyright 2024, 2025 Elizabeth Mattijsen
 
 This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
 
