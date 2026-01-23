@@ -1,11 +1,14 @@
 Revision history for MacOS::NativeLib
 
 {{$NEXT}}
+
+0.0.6  2026-01-23T21:59:32+01:00
     - Make sure that libraries that are "keg-only" in Homebrew
       (such as "archive") are also correctly linked
     - Make sure that libraries that could not be found are
       indicated as failures
     - Added 100% coverage testing
+    - Modernized META info
     - Updated copyright year
 
 0.0.5  2025-04-28T10:57:11+02:00

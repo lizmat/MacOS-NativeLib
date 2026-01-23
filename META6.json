@@ -10,13 +10,18 @@
   "description": "Make native libs reachable on MacOS",
   "license": "Artistic-2.0",
   "name": "MacOS::NativeLib",
-  "perl": "6.d",
   "provides": {
     "MacOS::NativeLib": "lib/MacOS/NativeLib.rakumod"
   },
+  "raku": "6.d",
   "resources": [
   ],
   "source-url": "https://github.com/lizmat/MacOS-NativeLib.git",
+  "support": {
+    "bugtracker": "https://github.com/lizmat/MacOS-NativeLib/issues",
+    "email": "liz@raku.rocks",
+    "source": "https://github.com/lizmat/MacOS-NativeLib.git"
+  },
   "tags": [
     "MACOS",
     "NATIVECALL"
