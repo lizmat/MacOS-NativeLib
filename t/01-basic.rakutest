@@ -3,6 +3,6 @@ use MacOS::NativeLib;
 
 plan 1;
 
-pass "Module loaded ok";
+ok ::('&ensure-symlink-for'), 'is the sub exported';
 
 # vim: expandtab shiftwidth=4

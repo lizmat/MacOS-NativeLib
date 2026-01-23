@@ -25,15 +25,15 @@ my sub ensure-symlink-for($name) {
                       "Existing symlink '$to' resolves incorrectly"
                     ) unless $from.resolve eq $to.resolve;
                 }
-                orwith symlink $from, $to {
+                orwith symlink $from, $to {  # UNCOVERABLE
                     ++$seen;
                 }
                 else {
-                    @failures.push(.message);
+                    @failures.push(.message);  # UNCOVERABLE
                 }
             }
             else {
-                @failures.push: "Could not access library '$from'";
+                @failures.push: "Could not access library '$from'";  # UNCOVERABLE
             }
         }
         $seen
@@ -49,7 +49,7 @@ my sub ensure-symlink-for($name) {
             }
 
             # attempt linking keg-only libraries
-            elsif process("$prefix/opt/$root/lib") {
+            elsif process("$prefix/opt/$root/lib") {  # UNCOVERABLE
             }
 
             # alas

@@ -1,0 +1,10 @@
+use Test;
+use MacOS::NativeLib 'archive';
+
+plan 1;
+
+ok dir(
+  $*EXECUTABLE.parent.sibling("lib")
+).first(*.basename.starts-with('libarchive'));
+
+# vim: expandtab shiftwidth=4
