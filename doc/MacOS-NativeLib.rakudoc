@@ -7,10 +7,8 @@ MacOS::NativeLib - Make native libs reachable on MacOS
 =head1 SYNOPSIS
 
 =begin code :lang<raku>
-
 use MacOS::NativeLib 'gd';  # make all versions of GD libraries accessible
 use GD::Raw;                # load raw GD support
-
 =end code
 
 =head1 DESCRIPTION
@@ -50,9 +48,7 @@ it is quite easy to make it an optional dependency in the code, by wrapping
 the C<use> statement in a C<try> / C<EVAL> combo:
 
 =begin code :lang<raku>
-
 try 'use MacOS::NativeLib <gd>'.EVAL;
-
 =end code
 
 =head1 SCRIPTS
@@ -60,9 +56,7 @@ try 'use MacOS::NativeLib <gd>'.EVAL;
 =head2 ensure-symlink-for
 
 =begin output
-
 $ ensure-symlink-for gd
-
 =end output
 
 This module also installs a command-line interface called
@@ -83,7 +77,7 @@ deal to me!
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2024, 2025 Elizabeth Mattijsen
+Copyright 2024, 2025, 2026 Elizabeth Mattijsen
 
 This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
 

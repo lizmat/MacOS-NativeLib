@@ -1,36 +1,60 @@
-my sub ensure-symlink-for($name) is export {
+my $target := $*EXECUTABLE.parent.sibling("lib");
+
+my sub ensure-symlink-for($name) {
     my @failures;
+
+    my $root := $name eq '*' || $name ~~ Whatever
+      ?? "lib"
+      !! $name.starts-with("lib")
+        ?? $name
+        !! "lib$name";
+
+    my sub process(Str:D $dir) {
+        my $io := $dir.IO;
+        return 0 unless $io.e && $io.d;
+
+        my int $seen;
+        for dir($dir).grep({
+            my $base := .basename;
+            $base.starts-with($root) && $base.ends-with(".dylib")
+        }) -> $from {
+            if $from.r {
+                my $to := $target.add($from.basename);
+                if $to.r {
+                    @failures.push(
+                      "Existing symlink '$to' resolves incorrectly"
+                    ) unless $from.resolve eq $to.resolve;
+                }
+                orwith symlink $from, $to {
+                    ++$seen;
+                }
+                else {
+                    @failures.push(.message);
+                }
+            }
+            else {
+                @failures.push: "Could not access library '$from'";
+            }
+        }
+        $seen
+    }
 
     if $*DISTRO.name eq 'macos' {
         my $prefix := quietly (run <brew config>, :out).out.slurp
           .lines.first(*.starts-with("HOMEBREW_PREFIX:")).substr(17);
 
         if $prefix {
-            my $root := $name eq '*' || $name ~~ Whatever
-              ?? "lib"
-              !! $name.starts-with("lib")
-                ?? $name
-                !! "lib$name";
-            my $target := $*EXECUTABLE.parent.sibling("lib");
+            # all ok?
+            if process("$prefix/lib") || $root eq 'lib' {
+            }
 
-            for dir("$prefix/lib").grep({
-                my $base := .basename;
-                $base.starts-with($root) && $base.ends-with(".dylib")
-            }) -> $from {
-                if $from.r {
-                    my $to := $target.add($from.basename);
-                    if $to.r {
-                        @failures.push(
-                          "Existing symlink '$to' resolves incorrectly"
-                        ) unless $from.resolve eq $to.resolve;
-                    }
-                    else {
-                        @failures.push(.message) without symlink $from, $to;
-                    }
-                }
-                else {
-                    @failures.push: "Could not access library '$from'";
-                }
+            # attempt linking keg-only libraries
+            elsif process("$prefix/opt/$root/lib") {
+            }
+
+            # alas
+            else {
+                @failures.push("Library '$root' not found")
             }
         }
         else {
@@ -43,7 +67,7 @@ my sub ensure-symlink-for($name) is export {
 
 my sub EXPORT(*@libs) {
     .note for @libs.map: &ensure-symlink-for;
-    BEGIN Map.new
+    BEGIN Map.new: "&ensure-symlink-for" => &ensure-symlink-for
 }
 
 # vim: expandtab shiftwidth=4
